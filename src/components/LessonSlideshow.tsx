@@ -1,8 +1,8 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight, Play, Pause, Volume2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Play, Pause, Volume2, Upload } from 'lucide-react';
 import Slide1 from './slides/Slide1';
 import Slide2 from './slides/Slide2';
 import Slide3 from './slides/Slide3';
@@ -11,61 +11,119 @@ import Slide4 from './slides/Slide4';
 interface Slide {
   id: number;
   component: React.ComponentType;
-  voiceOverText: string;
+  audioFile: string;
+  title: string;
 }
 
 const slides: Slide[] = [
   {
     id: 1,
     component: Slide1,
-    voiceOverText: "Hi there, and welcome to Stock Market Boot Camp! I'm your instructor, Ms. Pine. In this first lesson, we'll discover what the stock market actually is—and why people all over the world buy and sell stocks every single day. Let's dive in!"
+    audioFile: '/audio/slide1.mp3', // You'll upload this file
+    title: 'What Is the Stock Market?'
   },
   {
     id: 2,
     component: Slide2,
-    voiceOverText: "So, what is a stock? Simply put, a stock is a tiny piece of ownership in a company. Imagine your favorite lemonade stand growing into a big franchise—each share of stock is like one small slice of that pie."
+    audioFile: '/audio/slide2.mp3', // You'll upload this file
+    title: 'What Is a Stock?'
   },
   {
     id: 3,
     component: Slide3,
-    voiceOverText: "Why do companies sell stock? They need money to grow—whether that's opening new stores, hiring amazing teams, or inventing cool new products. Selling shares gives them the cash they need to make those dreams happen."
+    audioFile: '/audio/slide3.mp3', // You'll upload this file
+    title: 'Why Do Companies Sell Stock?'
   },
   {
     id: 4,
     component: Slide4,
-    voiceOverText: "And why do people buy stock? Because they believe the company will get bigger and stronger over time—and that small slice they own today could be worth a lot more tomorrow. It's like planting a seed and watching it grow!"
+    audioFile: '/audio/slide4.mp3', // You'll upload this file
+    title: 'Why Buy Stock?'
   }
 ];
 
 const LessonSlideshow = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [audioError, setAudioError] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      const audio = audioRef.current;
+      
+      const handleLoadedMetadata = () => {
+        setDuration(audio.duration);
+        setAudioError(false);
+      };
+      
+      const handleTimeUpdate = () => {
+        setCurrentTime(audio.currentTime);
+      };
+      
+      const handleEnded = () => {
+        setIsPlaying(false);
+        setCurrentTime(0);
+      };
+      
+      const handleError = () => {
+        setAudioError(true);
+        setIsPlaying(false);
+      };
+
+      audio.addEventListener('loadedmetadata', handleLoadedMetadata);
+      audio.addEventListener('timeupdate', handleTimeUpdate);
+      audio.addEventListener('ended', handleEnded);
+      audio.addEventListener('error', handleError);
+
+      return () => {
+        audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
+        audio.removeEventListener('timeupdate', handleTimeUpdate);
+        audio.removeEventListener('ended', handleEnded);
+        audio.removeEventListener('error', handleError);
+      };
+    }
+  }, [currentSlide]);
 
   const nextSlide = () => {
+    stopAudio();
     setCurrentSlide((prev) => (prev + 1) % slides.length);
   };
 
   const prevSlide = () => {
+    stopAudio();
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
-  const playVoiceOver = () => {
-    if ('speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(slides[currentSlide].voiceOverText);
-      utterance.rate = 0.9;
-      utterance.pitch = 1.1;
-      utterance.volume = 0.8;
-      
-      utterance.onstart = () => setIsPlaying(true);
-      utterance.onend = () => setIsPlaying(false);
-      
-      speechSynthesis.speak(utterance);
+  const playAudio = () => {
+    if (audioRef.current && !audioError) {
+      audioRef.current.play();
+      setIsPlaying(true);
     }
   };
 
-  const stopVoiceOver = () => {
-    speechSynthesis.cancel();
-    setIsPlaying(false);
+  const pauseAudio = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    }
+  };
+
+  const stopAudio = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setIsPlaying(false);
+      setCurrentTime(0);
+    }
+  };
+
+  const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
   const CurrentSlideComponent = slides[currentSlide].component;
@@ -81,6 +139,13 @@ const LessonSlideshow = () => {
           <p className="text-xl text-gray-600">Lesson 1: Understanding the Stock Market</p>
         </div>
 
+        {/* Audio Element */}
+        <audio
+          ref={audioRef}
+          src={slides[currentSlide].audioFile}
+          preload="metadata"
+        />
+
         {/* Main Slide Card */}
         <Card className="mb-8 shadow-lg border-0 bg-white/80 backdrop-blur-sm">
           <div className="aspect-video relative overflow-hidden rounded-lg">
@@ -88,9 +153,71 @@ const LessonSlideshow = () => {
           </div>
         </Card>
 
-        {/* Controls */}
+        {/* Audio Controls */}
+        <div className="mb-6 bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-lg">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-gray-800">
+              {slides[currentSlide].title}
+            </h3>
+            <div className="flex items-center gap-2">
+              <Volume2 className="w-5 h-5 text-gray-600" />
+              {audioError ? (
+                <div className="flex items-center gap-2 text-red-600">
+                  <Upload className="w-4 h-4" />
+                  <span className="text-sm">Audio file not found</span>
+                </div>
+              ) : (
+                <>
+                  {!isPlaying ? (
+                    <Button
+                      onClick={playAudio}
+                      className="bg-green-500 hover:bg-green-600 text-white"
+                    >
+                      <Play className="w-4 h-4 mr-2" />
+                      Play
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={pauseAudio}
+                      className="bg-red-500 hover:bg-red-600 text-white"
+                    >
+                      <Pause className="w-4 h-4 mr-2" />
+                      Pause
+                    </Button>
+                  )}
+                  <Button
+                    onClick={stopAudio}
+                    variant="outline"
+                    size="sm"
+                  >
+                    Stop
+                  </Button>
+                </>
+              )}
+            </div>
+          </div>
+          
+          {!audioError && (
+            <div className="space-y-2">
+              {/* Progress Bar */}
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div 
+                  className="bg-purple-500 h-2 rounded-full transition-all duration-300"
+                  style={{ width: duration > 0 ? `${(currentTime / duration) * 100}%` : '0%' }}
+                ></div>
+              </div>
+              
+              {/* Time Display */}
+              <div className="flex justify-between text-sm text-gray-600">
+                <span>{formatTime(currentTime)}</span>
+                <span>{formatTime(duration)}</span>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Navigation Controls */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-          {/* Navigation */}
           <div className="flex items-center gap-4">
             <Button
               onClick={prevSlide}
@@ -123,35 +250,28 @@ const LessonSlideshow = () => {
               <ChevronRight className="w-5 h-5 ml-2" />
             </Button>
           </div>
-
-          {/* Voice Over Controls */}
-          <div className="flex items-center gap-2">
-            <Volume2 className="w-5 h-5 text-gray-600" />
-            {!isPlaying ? (
-              <Button
-                onClick={playVoiceOver}
-                className="bg-green-500 hover:bg-green-600 text-white"
-                size="lg"
-              >
-                <Play className="w-5 h-5 mr-2" />
-                Play Voice-Over
-              </Button>
-            ) : (
-              <Button
-                onClick={stopVoiceOver}
-                className="bg-red-500 hover:bg-red-600 text-white"
-                size="lg"
-              >
-                <Pause className="w-5 h-5 mr-2" />
-                Stop Voice-Over
-              </Button>
-            )}
-          </div>
         </div>
 
         {/* Slide Counter */}
         <div className="text-center mt-4 text-gray-600">
           Slide {currentSlide + 1} of {slides.length}
+        </div>
+
+        {/* Instructions for Adding Audio Files */}
+        <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4">
+          <h4 className="font-semibold text-blue-800 mb-2">How to Add Your Audio Files:</h4>
+          <ol className="text-blue-700 text-sm space-y-1 list-decimal list-inside">
+            <li>Create a folder called "audio" in your project's "public" folder</li>
+            <li>Add your MP3 files with these names:
+              <ul className="ml-6 mt-1 list-disc list-inside">
+                <li>slide1.mp3</li>
+                <li>slide2.mp3</li>
+                <li>slide3.mp3</li>
+                <li>slide4.mp3</li>
+              </ul>
+            </li>
+            <li>The audio will automatically load for each slide</li>
+          </ol>
         </div>
       </div>
     </div>
