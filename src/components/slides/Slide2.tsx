@@ -3,88 +3,87 @@ import React from 'react';
 
 const Slide2 = () => {
   return (
-    <div className="w-full h-full bg-gradient-to-br from-green-100 to-blue-100 p-8 flex flex-col justify-center">
-      <div className="flex items-center justify-center gap-12 mb-8">
-        {/* Left Panel - Lemonade Stand */}
-        <div className="flex-1 text-center">
-          <div className="bg-yellow-200 p-6 rounded-lg shadow-lg relative">
-            {/* Stand */}
-            <div className="w-32 h-20 bg-amber-600 mx-auto mb-4 relative rounded">
+    <div className="w-full h-full bg-gradient-to-br from-teal-400 to-teal-600 p-8 flex flex-col">
+      {/* Top Section with Title and Lemonade Stand */}
+      <div className="flex items-start justify-between mb-8">
+        <div className="text-right flex-1">
+          <h1 className="text-5xl font-bold text-gray-800 mb-4">WHAT IS A STOCK?</h1>
+          <p className="text-xl text-gray-700 max-w-md">
+            A stock is a small piece of ownership in a company.
+          </p>
+        </div>
+        
+        <div className="flex-1 flex justify-center">
+          {/* Lemonade Stand */}
+          <div className="relative">
+            {/* Stand Table */}
+            <div className="w-32 h-20 bg-amber-600 rounded relative">
               {/* Table legs */}
-              <div className="absolute -bottom-4 left-2 w-2 h-4 bg-amber-700"></div>
-              <div className="absolute -bottom-4 right-2 w-2 h-4 bg-amber-700"></div>
+              <div className="absolute -bottom-6 left-4 w-3 h-6 bg-amber-700"></div>
+              <div className="absolute -bottom-6 right-4 w-3 h-6 bg-amber-700"></div>
+              
+              {/* Awning */}
+              <div className="absolute -top-8 -left-4 w-40 h-8 bg-yellow-400 rounded-t-lg"></div>
               
               {/* Sign */}
-              <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-white px-3 py-1 rounded border border-gray-300">
-                <span className="text-xs font-bold text-gray-800">LEMONADE</span>
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-yellow-400 px-4 py-1 border-2 border-gray-700">
+                <span className="text-sm font-bold text-gray-800">LEMONADE</span>
               </div>
               
-              {/* Pitcher */}
-              <div className="absolute top-2 left-4 w-6 h-8 bg-yellow-400 rounded"></div>
-              
-              {/* Cup */}
-              <div className="absolute top-6 right-4 w-4 h-6 bg-white rounded-b"></div>
+              {/* Items on table */}
+              <div className="absolute top-2 left-4 w-8 h-10 bg-yellow-300 rounded"></div>
+              <div className="absolute top-6 right-4 w-6 h-8 bg-white rounded-b"></div>
             </div>
             
             {/* Kid character */}
-            <div className="w-8 h-12 bg-orange-300 mx-auto rounded-t-lg relative">
-              <div className="w-6 h-6 bg-peach-200 rounded-full absolute -top-4 left-1/2 transform -translate-x-1/2">
-                <div className="absolute top-1 left-1 w-1 h-1 bg-black rounded-full"></div>
-                <div className="absolute top-1 right-1 w-1 h-1 bg-black rounded-full"></div>
-                <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-2 h-1 bg-pink-400 rounded-full"></div>
+            <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
+              <div className="w-12 h-16 bg-blue-400 rounded-t-lg relative">
+                <div className="w-10 h-10 bg-orange-200 rounded-full absolute -top-8 left-1/2 transform -translate-x-1/2">
+                  <div className="absolute top-2 left-2 w-1 h-1 bg-black rounded-full"></div>
+                  <div className="absolute top-2 right-2 w-1 h-1 bg-black rounded-full"></div>
+                  <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-3 h-1 bg-pink-400 rounded-full"></div>
+                  <div className="absolute -top-2 -left-1 w-12 h-8 bg-amber-700 rounded-full"></div>
+                </div>
               </div>
             </div>
-            
-            <p className="text-sm font-semibold text-gray-700 mt-2">Small Business</p>
-          </div>
-        </div>
-
-        {/* Arrow */}
-        <div className="flex-shrink-0">
-          <svg width="60" height="40" viewBox="0 0 60 40" className="text-purple-500">
-            <path
-              d="M10 20 L40 20 M35 15 L40 20 L35 25"
-              stroke="currentColor"
-              strokeWidth="3"
-              fill="none"
-            />
-          </svg>
-        </div>
-
-        {/* Right Panel - Bigger Store */}
-        <div className="flex-1 text-center">
-          <div className="bg-blue-200 p-6 rounded-lg shadow-lg">
-            {/* Storefront */}
-            <div className="w-40 h-28 bg-red-400 mx-auto mb-4 relative rounded">
-              {/* Awning */}
-              <div className="absolute -top-4 left-0 right-0 h-6 bg-red-600 rounded-t-lg"></div>
-              
-              {/* Door */}
-              <div className="absolute left-4 bottom-0 w-8 h-16 bg-brown-600 rounded-t"></div>
-              <div className="absolute left-5 bottom-8 w-1 h-1 bg-yellow-400 rounded-full"></div>
-              
-              {/* Window */}
-              <div className="absolute right-4 bottom-4 w-12 h-12 bg-blue-200 border-2 border-white">
-                <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-white"></div>
-                <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-white"></div>
-              </div>
-              
-              {/* Sign */}
-              <div className="absolute top-2 left-1/2 transform -translate-x-1/2 bg-white px-4 py-1 rounded">
-                <span className="text-xs font-bold text-gray-800">LEMONADE CO.</span>
-              </div>
-            </div>
-            
-            <p className="text-sm font-semibold text-gray-700">Big Company</p>
           </div>
         </div>
       </div>
 
-      {/* Text Box */}
-      <div className="bg-white/90 backdrop-blur-sm p-6 rounded-lg shadow-lg max-w-2xl mx-auto">
-        <p className="text-xl font-semibold text-center text-gray-800">
-          A stock is a small piece of ownership in a company.
-        </p>
+      {/* Arrow */}
+      <div className="flex justify-center mb-8">
+        <svg width="80" height="40" viewBox="0 0 80 40" className="text-blue-600">
+          <path
+            d="M10 20 L60 20 M55 15 L60 20 L55 25"
+            stroke="currentColor"
+            strokeWidth="4"
+            fill="none"
+          />
+        </svg>
+      </div>
+
+      {/* Bottom Section with Bigger Store */}
+      <div className="flex justify-center">
+        <div className="relative">
+          {/* Store Building */}
+          <div className="w-48 h-32 bg-yellow-400 rounded-lg relative">
+            {/* Door */}
+            <div className="absolute left-6 bottom-0 w-12 h-20 bg-amber-700 rounded-t-lg">
+              <div className="absolute right-2 top-8 w-2 h-2 bg-yellow-400 rounded-full"></div>
+            </div>
+            
+            {/* Window */}
+            <div className="absolute right-6 bottom-6 w-16 h-16 bg-blue-200 border-4 border-white rounded">
+              <div className="absolute top-1/2 left-0 right-0 h-1 bg-white"></div>
+              <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-white"></div>
+            </div>
+            
+            {/* Sign */}
+            <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-yellow-400 px-6 py-2 border-2 border-gray-700">
+              <span className="text-lg font-bold text-gray-800">LEMONADE</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

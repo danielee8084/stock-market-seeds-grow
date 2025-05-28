@@ -3,9 +3,9 @@ import React from 'react';
 
 const Slide1 = () => {
   return (
-    <div className="w-full h-full bg-gradient-to-br from-teal-400 to-teal-600 relative overflow-hidden flex items-center justify-between p-8">
-      {/* City Skyline Silhouette */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 opacity-20">
+    <div className="w-full h-full bg-gradient-to-br from-teal-400 to-teal-600 relative overflow-hidden flex items-center justify-between p-12">
+      {/* City Skyline Background */}
+      <div className="absolute bottom-0 left-0 right-0 h-40 opacity-20">
         <svg viewBox="0 0 800 120" className="w-full h-full">
           <rect x="50" y="40" width="30" height="80" fill="white" />
           <rect x="100" y="20" width="40" height="100" fill="white" />
@@ -21,51 +21,45 @@ const Slide1 = () => {
           <rect x="600" y="20" width="35" height="100" fill="white" />
           <rect x="650" y="40" width="25" height="80" fill="white" />
           <rect x="690" y="30" width="30" height="90" fill="white" />
-          <polygon points="315,10 290,40 340,40" fill="white" />
         </svg>
       </div>
 
-      {/* Title (Left Side) */}
+      {/* Main Title */}
       <div className="flex-1 z-10">
-        <h1 className="text-6xl font-bold text-white mb-4 leading-tight">
-          <div className="text-4xl mb-2">WHAT IS THE</div>
-          <div className="text-yellow-300 text-7xl">STOCK MARKET?</div>
+        <h1 className="text-white font-bold leading-tight">
+          <div className="text-5xl mb-2">WHAT IS THE</div>
+          <div className="text-6xl">STOCK</div>
+          <div className="text-6xl">MARKET</div>
         </h1>
       </div>
 
-      {/* Instructor (Right Side) */}
-      <div className="flex-shrink-0 relative z-10">
-        <div className="w-48 h-64 relative">
-          {/* Instructor Figure */}
-          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
-            {/* Body */}
-            <div className="w-16 h-20 bg-purple-500 rounded-t-lg relative">
-              {/* Arms */}
-              <div className="absolute -left-3 top-4 w-6 h-3 bg-purple-400 rounded-full transform -rotate-12"></div>
-              <div className="absolute -right-3 top-4 w-6 h-3 bg-purple-400 rounded-full transform rotate-45"></div>
-            </div>
-            {/* Head */}
-            <div className="w-12 h-12 bg-peach-200 rounded-full absolute -top-10 left-1/2 transform -translate-x-1/2 border-2 border-white">
-              {/* Hair */}
-              <div className="absolute -top-2 -left-2 w-16 h-10 bg-amber-700 rounded-full"></div>
-              {/* Face */}
-              <div className="absolute top-3 left-2 w-2 h-2 bg-black rounded-full"></div>
-              <div className="absolute top-3 right-2 w-2 h-2 bg-black rounded-full"></div>
-              <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-4 h-1 bg-pink-400 rounded-full"></div>
-            </div>
+      {/* Instructor Character */}
+      <div className="flex-shrink-0 relative z-10 mr-8">
+        <div className="relative">
+          {/* Character Body */}
+          <div className="w-20 h-28 bg-purple-500 rounded-t-3xl relative">
+            {/* Arms */}
+            <div className="absolute -left-4 top-6 w-8 h-4 bg-purple-400 rounded-full transform -rotate-12"></div>
+            <div className="absolute -right-4 top-6 w-8 h-4 bg-purple-400 rounded-full transform rotate-45"></div>
           </div>
-        </div>
-
-        {/* Stock Chart Accent */}
-        <div className="absolute top-8 right-8 opacity-30">
-          <svg width="80" height="60" viewBox="0 0 80 60">
-            <polyline
-              fill="none"
-              stroke="white"
-              strokeWidth="3"
-              points="10,50 20,30 30,40 40,20 50,25 60,10 70,15"
-            />
-          </svg>
+          
+          {/* Character Head */}
+          <div className="w-14 h-14 bg-orange-200 rounded-full absolute -top-12 left-1/2 transform -translate-x-1/2 border-2 border-white">
+            {/* Hair */}
+            <div className="absolute -top-3 -left-3 w-20 h-12 bg-amber-800 rounded-full"></div>
+            {/* Eyes */}
+            <div className="absolute top-4 left-3 w-2 h-2 bg-black rounded-full"></div>
+            <div className="absolute top-4 right-3 w-2 h-2 bg-black rounded-full"></div>
+            {/* Smile */}
+            <div className="absolute top-7 left-1/2 transform -translate-x-1/2 w-6 h-2 bg-pink-400 rounded-full"></div>
+          </div>
+          
+          {/* Waving hand */}
+          <div className="absolute -top-8 -right-6 w-6 h-6 bg-orange-200 rounded-full">
+            <div className="absolute top-1 left-1 w-1 h-2 bg-orange-300 rounded"></div>
+            <div className="absolute top-1 left-2 w-1 h-2 bg-orange-300 rounded"></div>
+            <div className="absolute top-1 right-1 w-1 h-2 bg-orange-300 rounded"></div>
+          </div>
         </div>
       </div>
     </div>
